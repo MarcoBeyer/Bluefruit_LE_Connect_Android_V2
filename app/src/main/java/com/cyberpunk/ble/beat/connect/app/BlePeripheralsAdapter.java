@@ -1,4 +1,4 @@
-package com.adafruit.bluefruit.le.connect.app;
+package com.cyberpunk.ble.beat.connect.app;
 
 import android.content.Context;
 import android.os.ParcelUuid;
@@ -15,15 +15,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.adafruit.bluefruit.le.connect.R;
-import com.adafruit.bluefruit.le.connect.ble.BleUtils;
-import com.adafruit.bluefruit.le.connect.ble.central.BlePeripheral;
-import com.adafruit.bluefruit.le.connect.ble.central.BleScanner;
-import com.adafruit.bluefruit.le.connect.style.RssiUI;
-import com.adafruit.bluefruit.le.connect.utils.AdapterUtils;
-import com.adafruit.bluefruit.le.connect.utils.KeyboardUtils;
-import com.adafruit.bluefruit.le.connect.utils.LocalizationManager;
-import com.adafruit.bluefruit.le.connect.utils.UriBeaconUtils;
+import com.cyberpunk.ble.beat.connect.R;
+import com.cyberpunk.ble.beat.connect.ble.BleUtils;
+import com.cyberpunk.ble.beat.connect.ble.central.BlePeripheral;
+import com.cyberpunk.ble.beat.connect.ble.central.BleScanner;
+import com.cyberpunk.ble.beat.connect.style.RssiUI;
+import com.cyberpunk.ble.beat.connect.utils.AdapterUtils;
+import com.cyberpunk.ble.beat.connect.utils.KeyboardUtils;
+import com.cyberpunk.ble.beat.connect.utils.LocalizationManager;
+import com.cyberpunk.ble.beat.connect.utils.UriBeaconUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
@@ -31,9 +31,9 @@ import java.util.List;
 
 import no.nordicsemi.android.support.v18.scanner.ScanRecord;
 
-import static com.adafruit.bluefruit.le.connect.ble.central.BleScanner.kDeviceType_Beacon;
-import static com.adafruit.bluefruit.le.connect.ble.central.BleScanner.kDeviceType_Uart;
-import static com.adafruit.bluefruit.le.connect.ble.central.BleScanner.kDeviceType_UriBeacon;
+import static com.cyberpunk.ble.beat.connect.ble.central.BleScanner.kDeviceType_Beacon;
+import static com.cyberpunk.ble.beat.connect.ble.central.BleScanner.kDeviceType_Uart;
+import static com.cyberpunk.ble.beat.connect.ble.central.BleScanner.kDeviceType_UriBeacon;
 
 class BlePeripheralsAdapter extends RecyclerView.Adapter<BlePeripheralsAdapter.ViewHolder> {
     // Constants

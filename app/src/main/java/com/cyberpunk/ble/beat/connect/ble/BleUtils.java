@@ -1,4 +1,4 @@
-package com.adafruit.bluefruit.le.connect.ble;
+package com.cyberpunk.ble.beat.connect.ble;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;

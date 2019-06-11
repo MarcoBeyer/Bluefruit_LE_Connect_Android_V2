@@ -1,4 +1,4 @@
-package com.adafruit.bluefruit.le.connect.app;
+package com.cyberpunk.ble.beat.connect.app;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -30,11 +30,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.adafruit.bluefruit.le.connect.R;
-import com.adafruit.bluefruit.le.connect.ble.BleUtils;
-import com.adafruit.bluefruit.le.connect.ble.central.BlePeripheral;
-import com.adafruit.bluefruit.le.connect.ble.central.BleUUIDNames;
-import com.adafruit.bluefruit.le.connect.utils.LocalizationManager;
+import com.cyberpunk.ble.beat.connect.R;
+import com.cyberpunk.ble.beat.connect.ble.BleUtils;
+import com.cyberpunk.ble.beat.connect.ble.central.BlePeripheral;
+import com.cyberpunk.ble.beat.connect.ble.central.BleUUIDNames;
+import com.cyberpunk.ble.beat.connect.utils.LocalizationManager;
 
 import java.util.ArrayList;
 import java.util.Collections;

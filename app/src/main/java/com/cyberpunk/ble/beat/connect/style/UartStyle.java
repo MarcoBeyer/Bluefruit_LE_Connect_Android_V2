@@ -1,4 +1,4 @@
-package com.adafruit.bluefruit.le.connect.style;
+package com.cyberpunk.ble.beat.connect.style;
 
 import android.graphics.Color;
 import android.graphics.DashPathEffect;

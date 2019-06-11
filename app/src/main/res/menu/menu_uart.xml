@@ -5,13 +5,6 @@
     tools:context="com.adafruit.bluefruit.le.connect.app.UartActivity">
 
     <item
-        android:id="@+id/action_mqttsettings"
-        android:icon="@drawable/mqtt_disconnected"
-        android:title="@string/uart_mqtt_action"
-        app:showAsAction="always"
-        tools:ignore="AlwaysShowAction" />
-
-    <item
         android:id="@+id/action_help"
         android:icon="@drawable/ic_info_outline_white_24dp"
         android:title="@string/common_help_action"

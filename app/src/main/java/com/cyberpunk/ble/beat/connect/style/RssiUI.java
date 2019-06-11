@@ -1,6 +1,6 @@
-package com.adafruit.bluefruit.le.connect.style;
+package com.cyberpunk.ble.beat.connect.style;
 
-import com.adafruit.bluefruit.le.connect.R;
+import com.cyberpunk.ble.beat.connect.R;
 
 public class RssiUI {
     public static int getDrawableIdForRssi(int rssi) {

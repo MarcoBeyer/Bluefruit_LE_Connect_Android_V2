@@ -1,4 +1,4 @@
-package com.adafruit.bluefruit.le.connect.models;
+package com.cyberpunk.ble.beat.connect.models;
 
 import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
@@ -20,11 +20,11 @@ import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 
-import com.adafruit.bluefruit.le.connect.R;
-import com.adafruit.bluefruit.le.connect.ble.central.BlePeripheral;
-import com.adafruit.bluefruit.le.connect.ble.central.BleScanner;
-import com.adafruit.bluefruit.le.connect.utils.LocalizationManager;
-import com.adafruit.bluefruit.le.connect.utils.SingleLiveEvent;
+import com.cyberpunk.ble.beat.connect.R;
+import com.cyberpunk.ble.beat.connect.ble.central.BlePeripheral;
+import com.cyberpunk.ble.beat.connect.ble.central.BleScanner;
+import com.cyberpunk.ble.beat.connect.utils.LocalizationManager;
+import com.cyberpunk.ble.beat.connect.utils.SingleLiveEvent;
 
 import java.util.ArrayList;
 import java.util.Arrays;

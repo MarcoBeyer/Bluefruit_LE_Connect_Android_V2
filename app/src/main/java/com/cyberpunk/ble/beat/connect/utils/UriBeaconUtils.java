@@ -1,6 +1,6 @@
-package com.adafruit.bluefruit.le.connect.utils;
+package com.cyberpunk.ble.beat.connect.utils;
 
-import com.adafruit.bluefruit.le.connect.ble.BleUtils;
+import com.cyberpunk.ble.beat.connect.ble.BleUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;

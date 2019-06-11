@@ -1,4 +1,4 @@
-package com.adafruit.bluefruit.le.connect.app;
+package com.cyberpunk.ble.beat.connect.app;
 
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.adafruit.bluefruit.le.connect.R;
+import com.cyberpunk.ble.beat.connect.R;
 
 public class CommonHelpFragment extends Fragment {
     private static final String ARG_TITLE = "title";

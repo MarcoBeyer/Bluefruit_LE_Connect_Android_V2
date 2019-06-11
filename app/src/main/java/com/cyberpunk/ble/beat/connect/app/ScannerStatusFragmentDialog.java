@@ -1,4 +1,4 @@
-package com.adafruit.bluefruit.le.connect.app;
+package com.cyberpunk.ble.beat.connect.app;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -15,7 +15,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.adafruit.bluefruit.le.connect.R;
+import com.cyberpunk.ble.beat.connect.R;
 
 public class ScannerStatusFragmentDialog extends AppCompatDialogFragment {
     // Params

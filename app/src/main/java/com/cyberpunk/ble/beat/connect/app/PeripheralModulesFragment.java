@@ -1,18 +1,20 @@
-package com.adafruit.bluefruit.le.connect.app;
+package com.cyberpunk.ble.beat.connect.app;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,15 +22,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.adafruit.bluefruit.le.connect.R;
-import com.adafruit.bluefruit.le.connect.app.neopixel.NeopixelFragment;
-import com.adafruit.bluefruit.le.connect.ble.central.BlePeripheral;
-import com.adafruit.bluefruit.le.connect.ble.central.BlePeripheralBattery;
-import com.adafruit.bluefruit.le.connect.ble.central.BlePeripheralDfu;
-import com.adafruit.bluefruit.le.connect.ble.central.BlePeripheralUart;
-import com.adafruit.bluefruit.le.connect.ble.central.BleScanner;
-import com.adafruit.bluefruit.le.connect.style.RssiUI;
-import com.adafruit.bluefruit.le.connect.utils.LocalizationManager;
+import com.cyberpunk.ble.beat.connect.R;
+import com.cyberpunk.ble.beat.connect.ble.central.BlePeripheral;
+import com.cyberpunk.ble.beat.connect.ble.central.BlePeripheralBattery;
+import com.cyberpunk.ble.beat.connect.ble.central.BlePeripheralUart;
+import com.cyberpunk.ble.beat.connect.ble.central.BleScanner;
+import com.cyberpunk.ble.beat.connect.style.RssiUI;
+import com.cyberpunk.ble.beat.connect.utils.LocalizationManager;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -40,19 +40,12 @@ public class PeripheralModulesFragment extends ConnectedPeripheralFragment {
     private final static String TAG = PeripheralModulesFragment.class.getSimpleName();
 
     // Fragment parameters
-    public final static int CONNECTIONMODE_SINGLEPERIPHERAL = 0;
-    public final static int CONNECTIONMODE_MULTIPLEPERIPHERAL = 1;
+    private final static int CONNECTIONMODE_SINGLEPERIPHERAL = 0;
+    private final static int CONNECTIONMODE_MULTIPLEPERIPHERAL = 1;
 
     // Constants
     private final static int MODULE_INFO = 0;
     private final static int MODULE_UART = 1;
-    private final static int MODULE_PLOTTER = 2;
-    private final static int MODULE_PINIO = 3;
-    private final static int MODULE_CONTROLLER = 4;
-    private final static int MODULE_NEOPIXEL = 5;
-    private final static int MODULE_CALIBRATION = 6;
-    private final static int MODULE_THERMALCAMERA = 7;
-    private final static int MODULE_DFU = 8;
 
     // Data
     private PeripheralModulesFragmentListener mListener;
@@ -212,41 +205,6 @@ public class PeripheralModulesFragment extends ConnectedPeripheralFragment {
             case MODULE_UART:
                 fragment = UartModeFragment.newInstance(singlePeripheralIdentifier);
                 break;
-
-            case MODULE_PLOTTER:
-                fragment = PlotterFragment.newInstance(singlePeripheralIdentifier);
-                break;
-
-            case MODULE_PINIO:
-                if (singlePeripheralIdentifier != null) {
-                    fragment = PinIOFragment.newInstance(singlePeripheralIdentifier);
-                }
-                break;
-
-            case MODULE_CONTROLLER:
-                if (singlePeripheralIdentifier != null) {
-                    fragment = ControllerFragment.newInstance(singlePeripheralIdentifier);
-                }
-                break;
-
-            case MODULE_NEOPIXEL:
-                if (singlePeripheralIdentifier != null) {
-                    fragment = NeopixelFragment.newInstance(singlePeripheralIdentifier);
-                }
-                break;
-
-            case MODULE_CALIBRATION:
-                break;
-
-            case MODULE_THERMALCAMERA:
-                fragment = ThermalCameraFragment.newInstance(singlePeripheralIdentifier);
-                break;
-
-            case MODULE_DFU:
-                if (singlePeripheralIdentifier != null) {
-                    fragment = DfuFragment.newInstance(singlePeripheralIdentifier);
-                }
-                break;
         }
 
         if (fragment != null && mListener != null) {
@@ -396,41 +354,6 @@ public class PeripheralModulesFragment extends ConnectedPeripheralFragment {
                             iconDrawableId = R.drawable.tab_uart_icon;
                             titleId = R.string.uart_tab_title;
                             break;
-
-                        case MODULE_PLOTTER:
-                            iconDrawableId = R.drawable.tab_plotter_icon;
-                            titleId = R.string.plotter_tab_title;
-                            break;
-
-                        case MODULE_PINIO:
-                            iconDrawableId = R.drawable.tab_pinio_icon;
-                            titleId = R.string.pinio_tab_title;
-                            break;
-
-                        case MODULE_CONTROLLER:
-                            iconDrawableId = R.drawable.tab_controller_icon;
-                            titleId = R.string.controller_tab_title;
-                            break;
-
-                        case MODULE_NEOPIXEL:
-                            iconDrawableId = R.drawable.tab_neopixel_icon;
-                            titleId = R.string.neopixels_tab_title;
-                            break;
-
-                        case MODULE_CALIBRATION:
-                            iconDrawableId = R.drawable.tab_calibration_icon;
-                            titleId = R.string.calibration_tab_title;
-                            break;
-
-                        case MODULE_THERMALCAMERA:
-                            iconDrawableId = R.drawable.tab_thermalcamera_icon;
-                            titleId = R.string.thermalcamera_tab_title;
-                            break;
-
-                        case MODULE_DFU:
-                            iconDrawableId = R.drawable.tab_dfu_icon;
-                            titleId = R.string.dfu_tab_title;
-                            break;
                     }
 
                     ModuleViewHolder moduleViewHolder = (ModuleViewHolder) holder;
@@ -464,20 +387,15 @@ public class PeripheralModulesFragment extends ConnectedPeripheralFragment {
 
         private int[] getMenuItems() {
             if (mConnectionMode == CONNECTIONMODE_MULTIPLEPERIPHERAL) {
-                return new int[]{MODULE_UART, MODULE_PLOTTER};
+                return new int[]{MODULE_UART};
             } else if (mBlePeripheral == null) {
                 return new int[]{};
             } else {
                 final boolean hasUart = BlePeripheralUart.hasUart(mBlePeripheral);
-                final boolean hasDfu = BlePeripheralDfu.hasDfu(mBlePeripheral);
 
-                if (hasUart && hasDfu) {
-                    return new int[]{MODULE_INFO, MODULE_UART, MODULE_PLOTTER, MODULE_PINIO, MODULE_CONTROLLER, MODULE_NEOPIXEL, /*MODULE_CALIBRATION,*/ MODULE_THERMALCAMERA, MODULE_DFU};
-                } else if (hasUart) {
-                    return new int[]{MODULE_INFO, MODULE_UART, MODULE_PLOTTER, MODULE_PINIO, MODULE_CONTROLLER, /*MODULE_CALIBRATION, */MODULE_THERMALCAMERA};
-                } else if (hasDfu) {
-                    return new int[]{MODULE_INFO, MODULE_DFU};
-                } else {
+                if (hasUart) {
+                    return new int[]{MODULE_INFO, MODULE_UART};
+                }  else {
                     return new int[]{MODULE_INFO};
                 }
             }

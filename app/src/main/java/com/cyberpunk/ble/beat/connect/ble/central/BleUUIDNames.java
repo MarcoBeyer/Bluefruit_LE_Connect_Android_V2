@@ -1,4 +1,4 @@
-package com.adafruit.bluefruit.le.connect.ble.central;
+package com.cyberpunk.ble.beat.connect.ble.central;
 
 import android.content.Context;
 import androidx.annotation.NonNull;

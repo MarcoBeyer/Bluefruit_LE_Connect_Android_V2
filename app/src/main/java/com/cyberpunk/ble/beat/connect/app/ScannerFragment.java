@@ -1,9 +1,8 @@
-package com.adafruit.bluefruit.le.connect.app;
+package com.cyberpunk.ble.beat.connect.app;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.AlertDialog;
-import androidx.lifecycle.ViewModelProviders;
 import android.bluetooth.le.ScanCallback;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -12,21 +11,6 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.annotation.MainThread;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.core.content.ContextCompat;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.appcompat.widget.PopupMenu;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SimpleItemAnimator;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -47,18 +31,30 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.adafruit.bluefruit.le.connect.R;
-import com.adafruit.bluefruit.le.connect.ble.BleUtils;
-import com.adafruit.bluefruit.le.connect.ble.central.BleManager;
-import com.adafruit.bluefruit.le.connect.ble.central.BlePeripheral;
-import com.adafruit.bluefruit.le.connect.dfu.DfuUpdater;
-import com.adafruit.bluefruit.le.connect.dfu.ReleasesParser;
-import com.adafruit.bluefruit.le.connect.models.DfuViewModel;
-import com.adafruit.bluefruit.le.connect.models.ScannerViewModel;
-import com.adafruit.bluefruit.le.connect.style.StyledSnackBar;
-import com.adafruit.bluefruit.le.connect.utils.DialogUtils;
-import com.adafruit.bluefruit.le.connect.utils.KeyboardUtils;
-import com.adafruit.bluefruit.le.connect.utils.LocalizationManager;
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.cyberpunk.ble.beat.connect.R;
+import com.cyberpunk.ble.beat.connect.ble.BleUtils;
+import com.cyberpunk.ble.beat.connect.ble.central.BleManager;
+import com.cyberpunk.ble.beat.connect.ble.central.BlePeripheral;
+import com.cyberpunk.ble.beat.connect.models.ScannerViewModel;
+import com.cyberpunk.ble.beat.connect.style.StyledSnackBar;
+import com.cyberpunk.ble.beat.connect.utils.DialogUtils;
+import com.cyberpunk.ble.beat.connect.utils.KeyboardUtils;
+import com.cyberpunk.ble.beat.connect.utils.LocalizationManager;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Locale;
 
@@ -73,9 +69,6 @@ public class ScannerFragment extends Fragment implements ScannerStatusFragmentDi
 
     private final static String kPreferences = "Scanner";
     private final static String kPreferences_filtersPanelOpen = "filtersPanelOpen";
-
-    // Models
-    private DfuViewModel mDfuViewModel;
 
     // Data -  Scanned Devices
     private ScannerFragmentListener mListener;
@@ -355,10 +348,6 @@ public class ScannerFragment extends Fragment implements ScannerStatusFragmentDi
         super.onActivityCreated(savedInstanceState);
 
         // ViewModel
-        FragmentActivity activity = getActivity();
-        if (activity != null) {
-            mDfuViewModel = ViewModelProviders.of(activity).get(DfuViewModel.class);
-        }
         mScannerViewModel = ViewModelProviders.of(this).get(ScannerViewModel.class);
 
         // Scan results
@@ -436,13 +425,6 @@ public class ScannerFragment extends Fragment implements ScannerStatusFragmentDi
             String message = String.format(Locale.ENGLISH, LocalizationManager.getInstance().getString(getContext(), numPeripheralsFilteredOut == 1 ? "scanner_filteredoutinfo_single_format" : "scanner_filteredoutinfo_multiple_format"), numPeripheralsFilteredOut);
             mFilteredPeripheralsCountTextView.setText(message);
         });
-
-        // Dfu Update
-        mDfuViewModel.getDfuCheckResult().observe(this, dfuCheckResult -> {
-            if (dfuCheckResult != null) {
-                onDfuUpdateCheckResultReceived(dfuCheckResult.blePeripheral, dfuCheckResult.isUpdateAvailable, dfuCheckResult.dfuInfo, dfuCheckResult.firmwareInfo);
-            }
-        });
     }
 
     @Override
@@ -454,12 +436,7 @@ public class ScannerFragment extends Fragment implements ScannerStatusFragmentDi
             activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
             // Automatically starts scanning
-            boolean isDfuInProgress = activity instanceof MainActivity && ((MainActivity) activity).isIsDfuInProgress();
-            if (!isDfuInProgress) {
-                startScanning();
-            } else {
-                Log.d(TAG, "Don't start scanning because DFU  is in progress");
-            }
+            startScanning();
         }
     }
 
@@ -635,10 +612,11 @@ public class ScannerFragment extends Fragment implements ScannerStatusFragmentDi
                     removeConnectionStateDialog();
                     //  Nothing to do, wait for more connections or start
                 } else {
-                    // Check updates if needed
-                    Log.d(TAG, "Check firmware updates");
-                    showConnectionStateDialog(R.string.peripheraldetails_checkingupdates, blePeripheral);
-                    mDfuViewModel.startUpdatesCheck(context, blePeripheral);
+                    // Go to peripheral modules
+                    if (mListener != null) {
+                        removeConnectionStateDialog();
+                        mListener.startPeripheralModules(blePeripheral.getIdentifier());
+                    }
                 }
             }
         }
@@ -657,55 +635,6 @@ public class ScannerFragment extends Fragment implements ScannerStatusFragmentDi
     }
 
     // endregion
-
-    // region Dfu
-    @MainThread
-    private void onDfuUpdateCheckResultReceived(@NonNull BlePeripheral blePeripheral, boolean isUpdateAvailable, @NonNull DfuUpdater.DeviceDfuInfo deviceDfuInfo, @Nullable ReleasesParser.FirmwareInfo latestRelease) {
-        Log.d(TAG, "Update available: " + isUpdateAvailable);
-        removeConnectionStateDialog();
-
-        Context context = getContext();
-        if (isUpdateAvailable && latestRelease != null && context != null) {
-            // Ask user if should update
-            String message = String.format(getString(R.string.autoupdate_description_format), latestRelease.version);
-            new AlertDialog.Builder(context)
-                    .setTitle(R.string.autoupdate_title)
-                    .setMessage(message)
-                    .setPositiveButton(R.string.autoupdate_startupdate, (dialog, which) -> {
-                        startFirmwareUpdate(blePeripheral, latestRelease);
-                    })
-                    .setNeutralButton(R.string.autoupdate_later, (dialog, which) -> {
-                        if (mListener != null) {
-                            mListener.startPeripheralModules(blePeripheral.getIdentifier());
-                        }
-                    })
-                    .setNegativeButton(R.string.autoupdate_ignore, (dialog, which) -> {
-                        mDfuViewModel.setIgnoredVersion(context, latestRelease.version);
-                        if (mListener != null) {
-                            mListener.startPeripheralModules(blePeripheral.getIdentifier());
-                        }
-                    })
-                    .setCancelable(false)
-                    .show();
-        } else {
-            // Go to peripheral modules
-            if (mListener != null) {
-                mListener.startPeripheralModules(blePeripheral.getIdentifier());
-            }
-        }
-    }
-    // endregion
-
-    private void startFirmwareUpdate(@NonNull BlePeripheral blePeripheral, @NonNull ReleasesParser.FirmwareInfo firmwareInfo) {
-        removeConnectionStateDialog();       // hide current dialogs because software update will display a dialog
-        mScannerViewModel.stop();
-
-        FragmentActivity activity = getActivity();
-        if (activity != null && activity instanceof MainActivity) {
-            MainActivity mainActivity = (MainActivity) activity;
-            mainActivity.startUpdate(blePeripheral, firmwareInfo);
-        }
-    }
 
     // region Listeners
     interface ScannerFragmentListener {

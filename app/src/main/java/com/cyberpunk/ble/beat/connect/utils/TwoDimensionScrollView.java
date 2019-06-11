@@ -1,4 +1,4 @@
-package com.adafruit.bluefruit.le.connect.utils;
+package com.cyberpunk.ble.beat.connect.utils;
 
 import android.content.Context;
 import android.util.AttributeSet;

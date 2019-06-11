@@ -1,4 +1,4 @@
-package com.adafruit.bluefruit.le.connect.ble.central;
+package com.cyberpunk.ble.beat.connect.ble.central;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import android.util.Log;
 
-import com.adafruit.bluefruit.le.connect.ble.BleUtils;
+import com.cyberpunk.ble.beat.connect.ble.BleUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.Arrays;

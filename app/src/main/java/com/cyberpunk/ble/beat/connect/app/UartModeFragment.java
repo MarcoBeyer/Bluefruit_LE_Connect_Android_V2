@@ -1,4 +1,4 @@
-package com.adafruit.bluefruit.le.connect.app;
+package com.cyberpunk.ble.beat.connect.app;
 
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothGatt;
@@ -6,7 +6,6 @@ import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.Color;
 import android.os.Bundle;
-import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import android.util.Log;
@@ -17,14 +16,14 @@ import android.widget.AdapterView;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
-import com.adafruit.bluefruit.le.connect.R;
-import com.adafruit.bluefruit.le.connect.ble.UartPacket;
-import com.adafruit.bluefruit.le.connect.ble.central.BlePeripheral;
-import com.adafruit.bluefruit.le.connect.ble.central.BlePeripheralUart;
-import com.adafruit.bluefruit.le.connect.ble.central.BleScanner;
-import com.adafruit.bluefruit.le.connect.ble.central.UartPacketManager;
-import com.adafruit.bluefruit.le.connect.style.UartStyle;
-import com.adafruit.bluefruit.le.connect.utils.DialogUtils;
+import com.cyberpunk.ble.beat.connect.R;
+import com.cyberpunk.ble.beat.connect.ble.UartPacket;
+import com.cyberpunk.ble.beat.connect.ble.central.BlePeripheral;
+import com.cyberpunk.ble.beat.connect.ble.central.BlePeripheralUart;
+import com.cyberpunk.ble.beat.connect.ble.central.BleScanner;
+import com.cyberpunk.ble.beat.connect.ble.central.UartPacketManager;
+import com.cyberpunk.ble.beat.connect.style.UartStyle;
+import com.cyberpunk.ble.beat.connect.utils.DialogUtils;
 
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
@@ -193,7 +192,7 @@ public class UartModeFragment extends UartBaseFragment {
         if (context == null) {
             return;
         }
-        mUartData = new UartPacketManager(context, this, true, mMqttManager);           // Note: mqttmanager should have been initialized previously
+        mUartData = new UartPacketManager(context, this, true);           // Note: mqttmanager should have been initialized previously
         mBufferItemAdapter.setUartData(mUartData);
 
         // Colors assigned to peripherals
@@ -323,36 +322,6 @@ public class UartModeFragment extends UartBaseFragment {
         }
 
         return color;
-    }
-
-    // endregion
-
-    // region Mqtt
-
-    @MainThread
-    @Override
-    public void onMqttMessageArrived(String topic, @NonNull MqttMessage mqttMessage) {
-        if (!(mUartData instanceof UartPacketManager)) {
-            Log.e(TAG, "Error send with invalid uartData class");
-            return;
-        }
-        if (mBlePeripheralsUart.size() == 0) {
-            Log.e(TAG, "mBlePeripheralsUart not initialized");
-            return;
-        }
-
-        BlePeripheralUart blePeripheralUart = mBlePeripheralsUart.get(0);
-        final String message = new String(mqttMessage.getPayload());
-
-        ((UartPacketManager) mUartData).send(blePeripheralUart, message, true);          // Don't republish to mqtt something received from mqtt
-
-        /*
-        mMainHandler.post(new Runnable() {
-            @Override
-            public void run() {
-
-            }
-        })*/
     }
 
     // endregion

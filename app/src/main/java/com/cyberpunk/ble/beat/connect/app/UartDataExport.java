@@ -1,9 +1,9 @@
-package com.adafruit.bluefruit.le.connect.app;
+package com.cyberpunk.ble.beat.connect.app;
 
 import androidx.annotation.Nullable;
 
-import com.adafruit.bluefruit.le.connect.ble.BleUtils;
-import com.adafruit.bluefruit.le.connect.ble.UartPacket;
+import com.cyberpunk.ble.beat.connect.ble.BleUtils;
+import com.cyberpunk.ble.beat.connect.ble.UartPacket;
 
 import org.json.JSONArray;
 import org.json.JSONException;

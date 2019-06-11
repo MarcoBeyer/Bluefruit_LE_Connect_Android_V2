@@ -1,4 +1,4 @@
-package com.adafruit.bluefruit.le.connect.ble;
+package com.cyberpunk.ble.beat.connect.ble;
 
 public class UartPacket {
     public static final int TRANSFERMODE_TX = 0;
