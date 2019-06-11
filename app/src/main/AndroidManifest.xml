@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.adafruit.bluefruit.le.connect">
+    package="com.cyberpunk.ble.beat.connect">
 
     <uses-feature
         android:name="android.hardware.bluetooth_le"
@@ -29,10 +29,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <service android:name=".dfu.DfuService" />
-
-        <!-- Mqtt Service -->
-        <service android:name="org.eclipse.paho.android.service.MqttService" />
 
         <activity
             android:name=".app.SplashActivity"
@@ -51,7 +47,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="bluefruit"
+                    android:host="blebeat"
                     android:scheme="app" />
             </intent-filter>
         </activity>
