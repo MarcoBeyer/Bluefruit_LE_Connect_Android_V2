@@ -24,9 +24,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <service
-            android:name="com.cyberpunk.ble.beat.SpotifyBLE"
+            android:name=".app.SpotifyBLE"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
 
         <activity
             android:name=".app.SplashActivity"

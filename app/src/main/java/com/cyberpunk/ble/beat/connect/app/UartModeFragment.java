@@ -25,8 +25,6 @@ import com.cyberpunk.ble.beat.connect.ble.central.UartPacketManager;
 import com.cyberpunk.ble.beat.connect.style.UartStyle;
 import com.cyberpunk.ble.beat.connect.utils.DialogUtils;
 
-import org.eclipse.paho.client.mqttv3.MqttMessage;
-
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.List;
