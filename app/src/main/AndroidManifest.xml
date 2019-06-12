@@ -4,23 +4,17 @@
 
     <uses-feature
         android:name="android.hardware.bluetooth_le"
-        android:required="true" />
-
-    <!-- Bluetooth Permissions -->
+        android:required="true" /> <!-- Bluetooth Permissions -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />    <!-- Scanning: Needed for bluetooth scanning -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />      <!-- Controller: Client must have ACCESS_FINE_LOCATION permission to request PRIORITY_HIGH_ACCURACY location -->
-
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- Scanning: Needed for bluetooth scanning -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- Controller: Client must have ACCESS_FINE_LOCATION permission to request PRIORITY_HIGH_ACCURACY location -->
     <!-- Downloads Permissions -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-    <!-- Barcode reading -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Barcode reading -->
     <uses-permission android:name="android.permission.CAMERA" />
 
-    <!-- App -->
     <application
         android:name=".BluefruitApplication"
         android:allowBackup="true"
@@ -29,6 +23,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <service
+            android:name="com.cyberpunk.ble.beat.SpotifyBLE"
+            android:enabled="true"
+            android:exported="true"></service>
 
         <activity
             android:name=".app.SplashActivity"
@@ -39,7 +37,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -54,10 +51,8 @@
         <activity
             android:name=".app.MainActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTop" />
-
-        <!-- DFU Notification -->
+            android:launchMode="singleTop" /> <!-- DFU Notification -->
         <activity android:name=".dfu.NotificationActivity" />
-
     </application>
+
 </manifest>
