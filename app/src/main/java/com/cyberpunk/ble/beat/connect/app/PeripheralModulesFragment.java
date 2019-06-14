@@ -46,6 +46,7 @@ public class PeripheralModulesFragment extends ConnectedPeripheralFragment {
     // Constants
     private final static int MODULE_INFO = 0;
     private final static int MODULE_UART = 1;
+    private final static int MODULE_SPOTIFY = 2;
 
     // Data
     private PeripheralModulesFragmentListener mListener;
@@ -205,6 +206,10 @@ public class PeripheralModulesFragment extends ConnectedPeripheralFragment {
             case MODULE_UART:
                 fragment = UartModeFragment.newInstance(singlePeripheralIdentifier);
                 break;
+
+            case MODULE_SPOTIFY:
+                fragment = SpotifyFragment.newInstance(singlePeripheralIdentifier);
+                break;
         }
 
         if (fragment != null && mListener != null) {
@@ -354,6 +359,11 @@ public class PeripheralModulesFragment extends ConnectedPeripheralFragment {
                             iconDrawableId = R.drawable.tab_uart_icon;
                             titleId = R.string.uart_tab_title;
                             break;
+
+                        case MODULE_SPOTIFY:
+                            iconDrawableId = R.drawable.tab_uart_icon;
+                            titleId = R.string.spotify_tab_title;
+                            break;
                     }
 
                     ModuleViewHolder moduleViewHolder = (ModuleViewHolder) holder;
@@ -387,14 +397,14 @@ public class PeripheralModulesFragment extends ConnectedPeripheralFragment {
 
         private int[] getMenuItems() {
             if (mConnectionMode == CONNECTIONMODE_MULTIPLEPERIPHERAL) {
-                return new int[]{MODULE_UART};
+                return new int[]{MODULE_UART, MODULE_SPOTIFY};
             } else if (mBlePeripheral == null) {
                 return new int[]{};
             } else {
                 final boolean hasUart = BlePeripheralUart.hasUart(mBlePeripheral);
 
                 if (hasUart) {
-                    return new int[]{MODULE_INFO, MODULE_UART};
+                    return new int[]{MODULE_INFO, MODULE_UART, MODULE_SPOTIFY};
                 }  else {
                     return new int[]{MODULE_INFO};
                 }

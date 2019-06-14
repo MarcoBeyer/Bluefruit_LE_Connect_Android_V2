@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements ScannerFragment.S
 
     // Activity request codes (used for onActivityResult)
     private static final int kActivityRequestCode_EnableBluetooth = 1;
+    private static final int SPOTIFY_REQUEST_CODE = 1337;
 
     // Data
     private MainFragment mMainFragment;
@@ -281,8 +282,12 @@ public class MainActivity extends AppCompatActivity implements ScannerFragment.S
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == kActivityRequestCode_EnableBluetooth) {
+        if (requestCode == SPOTIFY_REQUEST_CODE) {
+            Fragment fragment = getSupportFragmentManager().findFragmentByTag("Module");
+            if(fragment != null){
+                fragment.onActivityResult(requestCode, resultCode, data);
+            }
+        } else if (requestCode == kActivityRequestCode_EnableBluetooth) {
             if (resultCode == Activity.RESULT_OK) {
                 checkPermissions();
             } else if (resultCode == Activity.RESULT_CANCELED) {
