@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+
 import com.cyberpunk.ble.beat.connect.ble.UartPacket;
 import com.cyberpunk.ble.beat.connect.ble.UartPacketManagerBase;
 import com.cyberpunk.ble.beat.connect.ble.central.BlePeripheral;
@@ -22,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.List;
 
 import okhttp3.Call;
@@ -117,7 +120,6 @@ public class SpotifyBLEService extends Service implements BleScanner.BleScannerL
                 uartPeripheral = new BlePeripheralUart(peripheral);
                 uartPeripheral.uartEnable(mUartData, status -> {
                     Log.d(TAG, "GATT:" + status);
-                    mUartData.send(uartPeripheral, "BEAT\n 10\n 12\n 17\n");
                 });
             }
         }
@@ -157,14 +159,11 @@ public class SpotifyBLEService extends Service implements BleScanner.BleScannerL
 
     // Spotify region
     private void connected() {
-        // Play a playlist
-        mSpotifyAppRemote.getPlayerApi().play("spotify:playlist:37i9dQZF1DX2sUQwD7tbmL");
-        // Subscribe to PlayerState
         mSpotifyAppRemote.getPlayerApi()
                 .subscribeToPlayerState()
                 .setEventCallback(playerState -> {
                     final Track track = playerState.track;
-                    if (track != null) {
+                    if (track != null && !playerState.isPaused) {
                         Log.d(TAG, track.uri + " " + track.name + " by " + track.artist.name);
                         OkHttpClient mOkHttpClient = new OkHttpClient();
                         Request request = new Request.Builder()
@@ -187,9 +186,24 @@ public class SpotifyBLEService extends Service implements BleScanner.BleScannerL
                                 try {
                                     final JSONObject jsonObject = new JSONObject(response.body().string());
                                     JSONArray beats = jsonObject.getJSONArray("beats");
-                                    Log.d(TAG, "JSON: " + jsonObject.toString(3));
+                                    StringBuilder sendString = new StringBuilder();
+                                    sendString.append("BEAT");
+                                    for(int i = 0; i < beats.length() && !call.isCanceled(); i++){
+                                        if (i % 10 == 0){
+                                            sendString.append('\n');
+                                            Thread.sleep(1000);
+                                            mUartData.send(uartPeripheral, sendString.toString());
+                                            sendString.setLength(0);
+                                        }
+                                        sendString.append(" " + beats.getJSONObject(i).getString("start"));
+                                    }
+                                    sendString.append('\n');
+                                    mUartData.send(uartPeripheral, sendString.toString());
+                                    Log.d(TAG, "send string: " + sendString);
                                 } catch (JSONException e) {
                                     Log.e(TAG, "Failed to parse data: " + e);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
                                 }
                             }
                         });

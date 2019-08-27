@@ -200,4 +200,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="fragment_spotify_start_button">Start</string>
     <string name="spotify_tab_title">Spotify</string>
+    <string name="fragment_spotify_stop_button">Stop</string>
 </resources>

@@ -69,6 +69,11 @@ public class SpotifyFragment extends ConnectedPeripheralFragment {
             AuthenticationRequest request = builder.build();
             AuthenticationClient.openLoginActivity(this.requireActivity(), SPOTIFY_REQUEST_CODE, request);
         });
+        Button button_stop = view.findViewById(R.id.spotify_button_stop);
+        button_stop.setOnClickListener(v -> {
+            Intent intent = new Intent(this.getContext(), SpotifyBLEService.class);
+            this.requireContext().stopService(intent);
+        });
         return view;
     }
 

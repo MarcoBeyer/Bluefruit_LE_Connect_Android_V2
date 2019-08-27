@@ -6,10 +6,25 @@
     tools:context=".app.SpotifyFragment"
     android:id="@+id/fragment_spotify">
 
-    <Button
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Button
         android:id="@+id/spotify_button_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/fragment_spotify_start_button" />
+
+        <Button
+            android:id="@+id/spotify_button_stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_spotify_stop_button" />
+    </LinearLayout>
+
 
 </FrameLayout>
