@@ -13,9 +13,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.cyberpunk.ble.beat.connect.R;
-import com.spotify.sdk.android.authentication.AuthenticationClient;
-import com.spotify.sdk.android.authentication.AuthenticationRequest;
-import com.spotify.sdk.android.authentication.AuthenticationResponse;
+import com.spotify.sdk.android.auth.AuthorizationClient;
+import com.spotify.sdk.android.auth.AuthorizationRequest;
+import com.spotify.sdk.android.auth.AuthorizationResponse;
 
 public class SpotifyFragment extends ConnectedPeripheralFragment {
     private static final int SPOTIFY_REQUEST_CODE = 1337;
@@ -35,7 +35,7 @@ public class SpotifyFragment extends ConnectedPeripheralFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // Check if result comes from the correct activity
-        AuthenticationResponse response = AuthenticationClient.getResponse(resultCode, data);
+        AuthorizationResponse response = AuthorizationClient.getResponse(resultCode, data);
         switch (response.getType()) {
             // Response was successful and contains auth token
             case TOKEN:
@@ -64,10 +64,10 @@ public class SpotifyFragment extends ConnectedPeripheralFragment {
         View view = inflater.inflate(R.layout.fragment_spotify, container, false);
         Button button = view.findViewById(R.id.spotify_button_start);
         button.setOnClickListener(v -> {
-            AuthenticationRequest.Builder builder =
-                    new AuthenticationRequest.Builder(CLIENT_ID, AuthenticationResponse.Type.TOKEN, REDIRECT_URI);
-            AuthenticationRequest request = builder.build();
-            AuthenticationClient.openLoginActivity(this.requireActivity(), SPOTIFY_REQUEST_CODE, request);
+            AuthorizationRequest.Builder builder =
+                    new AuthorizationRequest.Builder(CLIENT_ID, AuthorizationResponse.Type.TOKEN, REDIRECT_URI);
+            AuthorizationRequest request = builder.build();
+            AuthorizationClient.openLoginActivity(this.requireActivity(), SPOTIFY_REQUEST_CODE, request);
         });
         Button button_stop = view.findViewById(R.id.spotify_button_stop);
         button_stop.setOnClickListener(v -> {

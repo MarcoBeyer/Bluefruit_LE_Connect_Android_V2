@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 30
     defaultConfig {
         applicationId "com.cyberpunk.ble.beat"
         minSdkVersion 21
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0.0"
+        targetSdkVersion 30
+        versionCode 2
+        versionName "1.0.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         resValue "string", "app_name", "BLE Beat"
@@ -35,7 +35,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    buildToolsVersion = '29.0.0'
+    buildToolsVersion = '29.0.2'
 }
 
 dependencies {
@@ -47,25 +47,25 @@ dependencies {
 
     // Support library
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'com.google.android.material:material:1.0.0'
-    implementation 'androidx.vectordrawable:vectordrawable:1.0.1'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.percentlayout:percentlayout:1.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
 
     // Google Play Services
-    implementation 'com.google.android.gms:play-services-base:16.1.0'
-    implementation 'com.google.android.gms:play-services-location:16.0.0'
-    implementation 'com.google.android.gms:play-services-vision:17.0.2'
+    implementation 'com.google.android.gms:play-services-base:17.3.0'
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
+    implementation 'com.google.android.gms:play-services-vision:20.1.0'
 
     // Nordic
     implementation 'no.nordicsemi.android.support.v18:scanner:1.4.0'
     implementation 'no.nordicsemi.android:ble:2.1.1'
 
     //  Architecture Components
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
-    implementation 'androidx.lifecycle:lifecycle-common-java8:2.0.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-common-java8:2.2.0'
 
 
     // Color Picker
@@ -80,8 +80,8 @@ dependencies {
     testImplementation 'junit:junit:4.13-beta-3'
 
     //Spotify
-    implementation project(':spotify-app-remote-release-0.6.1')
-    implementation project(':spotify-auth-release-1.1.0')
+    implementation project(':spotify-app-remote')
+    implementation project(':spotify-auth')
     implementation 'com.github.kaaes:spotify-web-api-android:0.4.1'
     implementation 'com.squareup.okhttp3:okhttp:4.0.0-RC1'
 

@@ -42,6 +42,8 @@ public class SpotifyBLEService extends Service implements BleScanner.BleScannerL
     private String mAccessToken;
     private BlePeripheral peripheral;
     private BlePeripheralUart uartPeripheral;
+    private OkHttpClient mOkHttpClient;
+    private Track track;
     private Call mCall;
     private BleScanner mScanner;
     private UartPacketManager mUartData;
@@ -162,10 +164,12 @@ public class SpotifyBLEService extends Service implements BleScanner.BleScannerL
         mSpotifyAppRemote.getPlayerApi()
                 .subscribeToPlayerState()
                 .setEventCallback(playerState -> {
-                    final Track track = playerState.track;
+                    track = playerState.track;
                     if (track != null && !playerState.isPaused) {
                         Log.d(TAG, track.uri + " " + track.name + " by " + track.artist.name);
-                        OkHttpClient mOkHttpClient = new OkHttpClient();
+                        if (mOkHttpClient == null) {
+                            mOkHttpClient = new OkHttpClient();
+                        }
                         Request request = new Request.Builder()
                                 .url("https://api.spotify.com/v1/audio-analysis/" + track.uri.split(":")[2])
                                 .addHeader("Authorization","Bearer " + mAccessToken)
@@ -184,21 +188,30 @@ public class SpotifyBLEService extends Service implements BleScanner.BleScannerL
                             @Override
                             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                                 try {
+                                    String currentTrack = track.uri;
                                     final JSONObject jsonObject = new JSONObject(response.body().string());
+                                    response.close();
                                     JSONArray beats = jsonObject.getJSONArray("beats");
                                     StringBuilder sendString = new StringBuilder();
-                                    sendString.append("BEAT");
-                                    for(int i = 0; i < beats.length() && !call.isCanceled(); i++){
-                                        if (i % 10 == 0){
-                                            sendString.append('\n');
-                                            Thread.sleep(1000);
-                                            mUartData.send(uartPeripheral, sendString.toString());
-                                            sendString.setLength(0);
+
+                                    for(int i = 0; i < beats.length() && !call.isCanceled(); i++) {
+                                        double duration = beats.getJSONObject(i).getDouble("duration");
+                                        duration *= 1000;
+                                        Thread.sleep((int)duration);
+                                        if(track == null || !track.uri.equals(currentTrack)) {
+                                            return;
                                         }
-                                        sendString.append(" " + beats.getJSONObject(i).getString("start"));
+
+                                        sendString.append("BEAT " + (int)duration);
+                                        sendString.append('\n');
+                                        mUartData.send(uartPeripheral, sendString.toString());
+                                        sendString.setLength(0);
+                                        Thread.sleep((int)duration);
                                     }
                                     sendString.append('\n');
-                                    mUartData.send(uartPeripheral, sendString.toString());
+                                    //mUartData.send(uartPeripheral, sendString.toString());
+                                    //Thread.sleep(1000);
+
                                     Log.d(TAG, "send string: " + sendString);
                                 } catch (JSONException e) {
                                     Log.e(TAG, "Failed to parse data: " + e);
@@ -207,6 +220,8 @@ public class SpotifyBLEService extends Service implements BleScanner.BleScannerL
                                 }
                             }
                         });
+                    } else if(playerState.isPaused){
+                        track = null;
                     }
                 });
     }
